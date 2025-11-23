@@ -2,13 +2,8 @@
 
 This document describes how to deploy the Kodbox application using Docker Compose.
 
-## Prerequisites
-
-- Docker
-- Docker Compose
 
 ## Files Created
-
 - `Dockerfile`: Defines the PHP-FPM application image with necessary extensions.
 - `docker-compose.yml`: Defines the services (app, web, db, redis).
 - `docker/nginx/conf.d/default.conf`: Nginx configuration.
@@ -32,13 +27,14 @@ This document describes how to deploy the Kodbox application using Docker Compos
 
 3.  **Initial Setup**
 
-    The application should automatically connect to the database and Redis. You may need to follow the on-screen installation wizard if it appears, but the database connection should be pre-filled or handled.
+    DB_HOST: db
+    REDIS: redis
 
 ## Notes
 
 - **Permissions**: If you encounter permission errors (especially on Linux/macOS), ensure the `data` directory is writable:
     ```bash
-    chmod -R 777 data
+    cd ../ && chmod -Rf 777 kodbox/
     ```
 - **Database**: The default database user/password is `kodbox`/`kodbox`. You can change this in `docker-compose.yml`.
 
