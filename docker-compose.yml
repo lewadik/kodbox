@@ -8,13 +8,13 @@ services:
     volumes:
       - .:/var/www/html
     environment:
-      - MYSQL_HOST=db
-      - MYSQL_DATABASE=kodbox
-      - MYSQL_USER=kodbox
-      - MYSQL_PASSWORD=kodbox
-      - MYSQL_PORT=3306
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      MYSQL_HOST: db
+      MYSQL_DATABASE: kodbox
+      MYSQL_USER: kodbox
+      MYSQL_PASSWORD: kodbox
+      MYSQL_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - db
       - redis
@@ -61,6 +61,8 @@ services:
 
 volumes:
   db_data:
+  app_data:
+    driver: local
 
 networks:
   kodbox-net:
