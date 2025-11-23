@@ -74,6 +74,9 @@ chmod -Rf 777 ./kodbox/*
 wget https://github.com/kalcaddle/kodbox/archive/refs/heads/main.zip
 unzip main.zip
 chmod -Rf 777 ./*
+
+# Install via Docker (Recommended)
+docker-compose up -d --build
 ```
 
 - Suggest server: php8.1+mysql5.7+redis; 

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: kodbox_app
+    restart: always
+    volumes:
+      - .:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=kodbox
+      - MYSQL_USER=kodbox
+      - MYSQL_PASSWORD=kodbox
+      - MYSQL_PORT=3306
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+    networks:
+      - kodbox-net
+
+  web:
+    image: nginx:alpine
+    container_name: kodbox_web
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+    networks:
+      - kodbox-net
+
+  db:
+    image: mysql:5.7
+    container_name: kodbox_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: kodbox
+      MYSQL_USER: kodbox
+      MYSQL_PASSWORD: kodbox
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - kodbox-net
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    image: redis:alpine
+    container_name: kodbox_redis
+    restart: always
+    networks:
+      - kodbox-net
+
+volumes:
+  db_data:
+
+networks:
+  kodbox-net:
+    driver: bridge
